@@ -1,25 +1,33 @@
 local blend = require("nushu.lib.color").blend
 
 ---@class SyntaxElements
+--- Color mapping follows the VS Code original's TextMate rules (the Zed port
+--- flattened several distinctions): variables/properties/punctuation are plain
+--- fg (`variable.other`, `meta.object.member`), types are blue (`entity`,
+--- `support`), operators are keyword pink (`keyword.operator`), and yellow is
+--- reserved for tags/components/JSON keys (`entity.name.tag`,
+--- `support.class.component`, `support.type.property-name.json`).
 ---@field string ColorSpec strings, regex, inline code
----@field variable ColorSpec plain variables (Nushu's signature reduced-emphasis grey)
----@field parameter ColorSpec function parameters (plain fg, per the VS Code original)
+---@field variable ColorSpec plain variables (fg — VS Code `variable.other`)
+---@field parameter ColorSpec function parameters (fg — `variable.parameter.function`)
 ---@field number ColorSpec numbers, booleans
----@field constant ColorSpec constants, enum members
----@field property ColorSpec object properties, struct fields, tag attributes
+---@field constant ColorSpec constants, enum members, const-declared variables
+---@field property ColorSpec object keys, member access (fg — `meta.object.member`)
+---@field subtle ColorSpec grey: bare `variable`/`entity.name`, markdown list markers
 ---@field fun ColorSpec functions and methods
 ---@field statement ColorSpec statements
 ---@field keyword ColorSpec keywords
----@field operator ColorSpec operators (blue in dark, navy in light — Zed asymmetry, intentional)
+---@field operator ColorSpec operators (keyword pink — `keyword.operator`)
 ---@field preproc ColorSpec preprocessor, imports
----@field type ColorSpec types, tags, constructors
+---@field type ColorSpec type references (blue — `entity`/`support`)
+---@field tag ColorSpec HTML/JSX tags, components, JSON keys (yellow)
 ---@field regex ColorSpec regular expressions
 ---@field heading ColorSpec markdown headings, titles
 ---@field deprecated ColorSpec invalid/deprecated code
 ---@field comment ColorSpec comments
----@field punct ColorSpec punctuation, delimiters, brackets
+---@field punct ColorSpec punctuation, delimiters, brackets (fg — unstyled in VS Code)
 ---@field special1 ColorSpec string escapes, interpolation braces (keyword pink)
----@field special2 ColorSpec regex escapes (type yellow)
+---@field special2 ColorSpec regex escapes, picker match highlight (yellow)
 ---@field special3 ColorSpec invalid / message.error (error pink)
 
 ---@class DiagnosticsElements
@@ -149,22 +157,24 @@ return {
             },
             syn = {
                 string = p.darkNavy,
-                variable = p.darkGrey,
+                variable = p.darkFg,
                 parameter = p.darkFg,
                 number = p.darkBlue,
                 constant = p.darkBlue,
-                property = p.darkBlue,
+                property = p.darkFg,
+                subtle = p.darkGrey,
                 fun = p.darkPurple,
                 statement = p.darkPink,
                 keyword = p.darkPink,
-                operator = p.darkBlue,
+                operator = p.darkPink,
                 preproc = p.darkPink,
-                type = p.darkYellow,
+                type = p.darkBlue,
+                tag = p.darkYellow,
                 regex = p.darkNavy,
                 heading = p.darkBlue,
                 deprecated = p.darkPinkError,
                 comment = p.darkGreen,
-                punct = p.darkGrey,
+                punct = p.darkFg,
                 special1 = p.darkPink,
                 special2 = p.darkYellow,
                 special3 = p.darkPinkError,
@@ -264,22 +274,24 @@ return {
             },
             syn = {
                 string = p.lightNavy,
-                variable = p.lightGrey,
+                variable = p.lightFg,
                 parameter = p.lightFg,
                 number = p.lightBlue,
                 constant = p.lightBlue,
-                property = p.lightBlue,
+                property = p.lightFg,
+                subtle = p.lightGrey,
                 fun = p.lightPurple,
                 statement = p.lightPink,
                 keyword = p.lightPink,
-                operator = p.lightNavy,
+                operator = p.lightPink,
                 preproc = p.lightPink,
-                type = p.lightYellow,
+                type = p.lightBlue,
+                tag = p.lightYellow,
                 regex = p.lightNavy,
                 heading = p.lightBlue,
                 deprecated = p.lightPinkError,
                 comment = p.lightGreen,
-                punct = p.lightGrey,
+                punct = p.lightFg,
                 special1 = p.lightPink,
                 special2 = p.lightYellow,
                 special3 = p.lightPinkError,

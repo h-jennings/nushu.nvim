@@ -61,7 +61,7 @@ function M.setup(colors, config)
         Special = { fg = theme.syn.special1 },
         --  SpecialChar	special character in a constant
         --  Tag		you can use CTRL-] on this
-        Tag = { fg = theme.syn.type },
+        Tag = { fg = theme.syn.tag },
         --  Delimiter	character that needs attention
         Delimiter = { fg = theme.syn.punct },
         --  SpecialComment	special things inside a comment

@@ -17,14 +17,15 @@ function M.setup(colors, config)
         ["@variable.member"] = { fg = theme.syn.property },
 
         -- @constant (Constant)            constant identifiers
-        -- @constant.builtin               built-in constant values
+        -- @constant.builtin               built-in constant values (undefined, null → blue)
+        ["@constant.builtin"] = { link = "Constant" },
         -- @constant.macro                 constants defined by the preprocessor
 
         -- @module (Structure)             modules or namespaces
         ["@module"] = { fg = theme.syn.constant },
         -- @module.builtin                 built-in modules or namespaces
         -- @label                          `GOTO` and other labels (e.g. `label:` in C)
-        ["@label"] = { fg = theme.syn.variable },
+        ["@label"] = { fg = theme.syn.subtle },
 
         -- @string                 string literals
         -- @string.documentation   string documenting code (e.g. Python docstrings)
@@ -52,10 +53,17 @@ function M.setup(colors, config)
         -- @type.definition        identifiers in type definitions
 
         -- @attribute              attribute annotations (e.g. Python decorators)
-        ["@attribute"] = { fg = theme.syn.property },
+        ["@attribute"] = { fg = theme.syn.fun },
         -- @attribute.builtin      builtin annotations (e.g. `@property` in Python)
         -- @property               the key in key/value pairs
         ["@property"] = { fg = theme.syn.property },
+        -- JSON/YAML/TOML keys are yellow in the VS Code original
+        -- (support.type.property-name.json)
+        ["@property.json"] = { fg = theme.syn.tag },
+        ["@property.jsonc"] = { fg = theme.syn.tag },
+        ["@property.json5"] = { fg = theme.syn.tag },
+        ["@property.yaml"] = { fg = theme.syn.tag },
+        ["@property.toml"] = { fg = theme.syn.tag },
 
         -- @function               function definitions
         ["@function"] = { link = "Function" },
@@ -71,9 +79,9 @@ function M.setup(colors, config)
         ["@function.method.call"] = { link = "Function" },
 
         -- @constructor            constructor calls and definitions
-        -- Yellow per the Zed port: JSX/TSX component tags dominate here and
-        -- Nushu renders tags in the type/tag family.
-        ["@constructor"] = { fg = theme.syn.type },
+        -- Yellow: JSX/TSX component tags dominate here and the VS Code
+        -- original renders components as support.class.component (yellow).
+        ["@constructor"] = { fg = theme.syn.tag },
         -- @operator               symbolic operators (e.g. `+`, `*`)
         ["@operator"] = { link = "Operator" },
 
@@ -128,7 +136,7 @@ function M.setup(colors, config)
         -- @markup.heading.1 .. 6  heading levels (all Nushu headings share one color)
 
         -- @markup.quote           block quotes
-        ["@markup.quote"] = { fg = theme.syn.type },
+        ["@markup.quote"] = { fg = theme.syn.tag },
         -- @markup.math            math environments (e.g. `$ ... $` in LaTeX)
         ["@markup.math"] = { link = "Constant" },
         -- @markup.environment     environments (e.g. in LaTeX)
@@ -148,8 +156,8 @@ function M.setup(colors, config)
         ["@markup.raw"] = { fg = theme.syn.heading },
         -- @markup.raw.block       literal or verbatim text as a stand-alone block
 
-        -- @markup.list            list markers
-        ["@markup.list"] = { fg = theme.syn.punct },
+        -- @markup.list            list markers (grey per the VS Code original)
+        ["@markup.list"] = { fg = theme.syn.subtle },
         -- @markup.list.checked    checked todo-style list markers
         ["@markup.list.checked"] = { fg = theme.diag.ok },
         -- @markup.list.unchecked  unchecked todo-style list markers
@@ -162,11 +170,11 @@ function M.setup(colors, config)
         ["@diff.delta"] = { fg = theme.vcs.changed },
 
         -- @tag                    XML-style tag names (e.g. in XML, HTML, etc.)
-        ["@tag"] = { fg = theme.syn.type },
+        ["@tag"] = { fg = theme.syn.tag },
         -- @tag.builtin            XML-style tag names (e.g. HTML5 tags)
-        ["@tag.builtin"] = { fg = theme.syn.type },
-        -- @tag.attribute          XML-style tag attributes
-        ["@tag.attribute"] = { fg = theme.syn.property },
+        ["@tag.builtin"] = { fg = theme.syn.tag },
+        -- @tag.attribute          XML-style tag attributes (entity.other.attribute-name → blue)
+        ["@tag.attribute"] = { fg = theme.syn.constant },
         -- @tag.delimiter          XML-style tag delimiters
         ["@tag.delimiter"] = { fg = theme.syn.punct },
     }
