@@ -19,7 +19,7 @@ local blend = require("nushu.lib.color").blend
 ---@field keyword ColorSpec keywords
 ---@field operator ColorSpec operators (keyword pink — `keyword.operator`)
 ---@field preproc ColorSpec preprocessor, imports
----@field type ColorSpec type references (blue — `entity`/`support`)
+---@field type ColorSpec custom type references (grey — `entity.name`); built-in/default-library types are blue via `support`
 ---@field tag ColorSpec HTML/JSX tags, components, JSON keys (yellow)
 ---@field regex ColorSpec regular expressions
 ---@field heading ColorSpec markdown headings, titles
@@ -168,7 +168,7 @@ return {
                 keyword = p.darkPink,
                 operator = p.darkPink,
                 preproc = p.darkPink,
-                type = p.darkBlue,
+                type = p.darkGrey,
                 tag = p.darkYellow,
                 regex = p.darkNavy,
                 heading = p.darkBlue,
@@ -285,7 +285,7 @@ return {
                 keyword = p.lightPink,
                 operator = p.lightPink,
                 preproc = p.lightPink,
-                type = p.lightBlue,
+                type = p.lightGrey,
                 tag = p.lightYellow,
                 regex = p.lightNavy,
                 heading = p.lightBlue,

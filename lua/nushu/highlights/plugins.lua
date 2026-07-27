@@ -130,14 +130,14 @@ function M.setup(colors, config)
         BlinkCmpKindStruct = { fg = theme.ui.special },
         BlinkCmpKindEvent = { fg = theme.ui.special },
         BlinkCmpKindOperator = { fg = theme.syn.operator },
-        BlinkCmpKindTypeParameter = { fg = theme.syn.type },
+        BlinkCmpKindTypeParameter = { fg = theme.syn.constant },
         BlinkCmpKindCopilot = { fg = theme.ui.fg_dim },
 
         -- trouble.nvim
         TroubleNormal = { fg = theme.ui.fg, bg = config.transparent and theme.ui.none or theme.ui.bg_dim },
         TroubleNormalNC = { link = "TroubleNormal" },
         TroubleText = { fg = theme.ui.fg },
-        TroubleCount = { fg = theme.syn.type, bg = theme.ui.bg_p2 },
+        TroubleCount = { fg = theme.syn.special2, bg = theme.ui.bg_p2 },
         TroubleIndent = { fg = theme.ui.indent_line },
         TroublePos = { fg = theme.ui.fg_dim },
         TroubleSource = { fg = theme.ui.fg_dim },

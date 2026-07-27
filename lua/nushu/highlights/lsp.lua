@@ -29,7 +29,19 @@ function M.setup(colors, config)
         ["@lsp.type.comment"] = {}, -- defer to treesitter
 
         ["@lsp.mod.deprecated"] = { strikethrough = true, fg = theme.syn.deprecated },
-        ["@lsp.mod.readonly"] = { link = "Constant" },
+        -- NOTE: no broad @lsp.mod.readonly link — it would outrank
+        -- @lsp.type.function and turn const-assigned functions (hooks) blue
+        -- instead of purple. Readonly is handled per-type via typemod below.
+        ["@lsp.typemod.property.readonly"] = { link = "Constant" },
+
+        -- Default-library types (Omit, Partial, Promise, ...) resolve through
+        -- the `support` scope in the VS Code original: blue, unlike the grey
+        -- of custom types
+        ["@lsp.typemod.type.defaultLibrary"] = { link = "Constant" },
+        ["@lsp.typemod.class.defaultLibrary"] = { link = "Constant" },
+        ["@lsp.typemod.interface.defaultLibrary"] = { link = "Constant" },
+        ["@lsp.typemod.enum.defaultLibrary"] = { link = "Constant" },
+        ["@lsp.typemod.enumMember.defaultLibrary"] = { link = "Constant" },
 
         ["@lsp.typemod.function.builtin"] = { link = "@function.builtin" },
         ["@lsp.typemod.function.defaultLibrary"] = { link = "@function.builtin" },

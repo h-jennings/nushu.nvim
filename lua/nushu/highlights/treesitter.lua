@@ -46,10 +46,10 @@ function M.setup(colors, config)
         -- @number                 numeric literals
         -- @number.float           floating-point number literals
 
-        -- @type                   type or class definitions and annotations
+        -- @type                   type or class definitions and annotations (custom types: grey)
         ["@type"] = { link = "Type" },
-        -- @type.builtin           built-in types
-        ["@type.builtin"] = { fg = theme.syn.type },
+        -- @type.builtin           built-in types (string, number → support.type: blue)
+        ["@type.builtin"] = { fg = theme.syn.constant },
         -- @type.definition        identifiers in type definitions
 
         -- @attribute              attribute annotations (e.g. Python decorators)
