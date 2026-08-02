@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  format:
+    name: stylua
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check .
+
+  smoke:
+    name: colorscheme loads
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+      # Loads both variants with no user config and asserts the behaviour the
+      # README documents: variant switching, pinning, palette and highlight
+      # overrides, transparent, the terminal palette, the lualine theme.
+      - run: nvim -l tools/smoke.lua
+
+  flavors:
+    name: yazi flavors in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+      # extras/ is generated from the palette. Regenerating must be a no-op, or
+      # the committed flavors have drifted from lua/nushu/themes.lua.
+      - run: nvim -l tools/gen-yazi-flavors.lua
+      - name: Check for drift
+        run: |
+          if ! git diff --exit-code -- extras/; then
+            echo "::error::extras/ is stale — run 'nvim -l tools/gen-yazi-flavors.lua' and commit"
+            exit 1
+          fi

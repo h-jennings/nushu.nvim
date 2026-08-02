@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Mirrors .stylua.toml, which is the authority for Lua.
+[*.lua]
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+[*.{md,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Generated from tools/gen-yazi-flavors.lua, which emits tabs inside the [icon]
+# rule lists to match yazi's own preset formatting.
+[*.toml]
+indent_style = tab
+
+[*.vim]
+indent_style = space
+indent_size = 4
