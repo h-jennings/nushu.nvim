@@ -111,6 +111,46 @@ A matching lualine theme ships with the plugin and is picked up by
 (normal blue, insert green, visual purple, replace orange, command pink). Set
 `vim.g.nushu_lualine_bold = true` for bold mode sections.
 
+## Yazi
+
+Two matching [yazi](https://github.com/sxyazi/yazi) flavors ship in
+[`extras/yazi/`](./extras/yazi), for use standalone or through
+[yazi.nvim](https://github.com/mikavilpas/yazi.nvim). Copy or symlink both into
+your yazi config directory and select them:
+
+```toml
+# ~/.config/yazi/theme.toml
+[flavor]
+dark  = "nushu-dark"
+light = "nushu-light"
+```
+
+Most of yazi needs no help: its default theme names colors as ANSI slots, which
+already resolve through `vim.g.terminal_color_*` inside a Neovim terminal buffer.
+The flavors exist for the parts that don't —
+
+- **Icons.** yazi hardcodes 725 Material Design colors in `[icon]`, at a median
+  saturation of 0.76. They're remapped by hue onto nine tones drawn from the
+  nushu palette and pinned to one saturation and lightness, so filetypes stay
+  distinguishable without the rainbow.
+- **Borders.** yazi's `gray` is ANSI 7, which lands on nushu's terminal *white* —
+  brighter than the float border Neovim draws around yazi, so the inner column
+  dividers outshouted the frame around them. They now use `ui.border`.
+- **Hover.** The preset uses `reversed = true`, which swaps fg and bg and so
+  discards the file's own color. The flavors tint the row background instead,
+  the way `CursorLine` does.
+- **Previews.** Each flavor ships a `tmtheme.xml` generated from the same syntax
+  mapping as the editor highlights, so a file looks the same previewed as opened.
+
+Both flavors are generated — run `nvim -l tools/gen-yazi-flavors.lua` after
+changing the palette, and see [`tools/vendor/README.md`](./tools/vendor/README.md)
+for refreshing the icon set after a yazi upgrade. Edit `theme.toml`, not the
+flavor: yazi merges your theme over the flavor and yours wins.
+
+Note that yazi picks dark or light at launch from the *terminal's* reported
+appearance, not Neovim's `background`, so a variant switch lands on the next
+open rather than in a window already showing.
+
 ## Attribution
 
 - [wheredoesyourmindgo/nushu-vscode-theme](https://github.com/wheredoesyourmindgo/nushu-vscode-theme)
