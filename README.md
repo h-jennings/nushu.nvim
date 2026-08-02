@@ -139,8 +139,11 @@ The flavors exist for the parts that don't —
 - **Hover.** The preset uses `reversed = true`, which swaps fg and bg and so
   discards the file's own color. The flavors tint the row background instead,
   the way `CursorLine` does.
-- **Previews.** Each flavor ships a `tmtheme.xml` generated from the same syntax
-  mapping as the editor highlights, so a file looks the same previewed as opened.
+- **Previews.** Each flavor ships a `tmtheme.xml` built from the same syntax
+  mapping as the editor highlights, so previewed files use nushu's palette rather
+  than syntect's default theme. yazi tokenizes with TextMate scopes rather than
+  Tree-sitter, so a preview matches in color without matching an open buffer
+  token for token.
 
 Both flavors are generated — run `nvim -l tools/gen-yazi-flavors.lua` after
 changing the palette, and see [`tools/vendor/README.md`](./tools/vendor/README.md)

@@ -1,11 +1,12 @@
 # Nushu Dark (yazi flavor)
 
 The yazi half of [nushu.nvim](https://github.com/h-jennings/nushu.nvim) — a port
-of the Nushu theme, warm brown-black backgrounds with a GitHub Primer-derived
-accent set.
+of the Nushu theme: warm brown-black backgrounds
+with a GitHub Primer-derived accent set.
 
-Generated from the Neovim theme's palette by `tools/gen-yazi-flavors.lua`. Do not
-edit by hand; override styles in your own `theme.toml`, which yazi merges on top.
+Generated from the Neovim theme's palette by `tools/gen-yazi-flavors.lua` in that
+repository. Do not edit by hand; override styles in your own `theme.toml`, which
+yazi merges on top and which always wins.
 
 ## Install
 
@@ -26,7 +27,7 @@ yazi's icon set hardcodes 725 Material Design colors at a median saturation of
 0.76. They're mapped by hue onto nine nushu tones, pinned to one saturation and
 lightness so they read as a family rather than a rainbow:
 
-| Tone | dark |
+| Tone | Hex |
 | --- | --- |
 | red | `#c37d79` |
 | orange | `#c39879` |
