@@ -50,14 +50,15 @@ function M.setup(colors, config)
         SnacksIndentScope = { fg = theme.ui.active_indent_line, nocombine = true },
 
         -- snacks.nvim: dashboard
-        SnacksDashboardHeader = { fg = theme.ui.accent },
+        SnacksDashboardHeader = { fg = theme.ui.nontext },
         SnacksDashboardTitle = { fg = theme.ui.fg, bold = config.bold },
         SnacksDashboardDesc = { fg = theme.ui.fg },
-        SnacksDashboardIcon = { fg = theme.ui.accent },
-        SnacksDashboardKey = { fg = theme.syn.keyword },
-        SnacksDashboardSpecial = { fg = theme.ui.special },
-        SnacksDashboardDir = { fg = theme.ui.fg_dim },
-        SnacksDashboardFooter = { fg = theme.ui.fg_dim },
+        SnacksDashboardFile = { fg = theme.ui.fg },
+        SnacksDashboardIcon = { fg = theme.ui.fg_dim },
+        SnacksDashboardKey = { fg = theme.ui.fg_dim },
+        SnacksDashboardSpecial = { fg = theme.ui.fg_dim },
+        SnacksDashboardDir = { fg = theme.ui.nontext },
+        SnacksDashboardFooter = { fg = theme.ui.nontext },
 
         -- snacks.nvim: input
         SnacksInputNormal = { link = "NormalFloat" },
