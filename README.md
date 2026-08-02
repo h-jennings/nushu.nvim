@@ -4,6 +4,14 @@ A Neovim port of the **Nushu** theme — a reduced-contrast fork of GitHub's
 default themes that keeps the familiar Primer syntax palette on warm,
 comfortable backgrounds. Dark and light variants included.
 
+**Dark**
+
+![Nushu Dark, highlighting a TypeScript React file](./assets/nushu-dark.png)
+
+**Light**
+
+![Nushu Light, highlighting a TypeScript React file](./assets/nushu-light.png)
+
 ## Requirements
 
 - Neovim ≥ 0.9
@@ -129,6 +137,8 @@ A matching lualine theme ships with the plugin and is picked up by
 `vim.g.nushu_lualine_bold = true` for bold mode sections.
 
 ## Yazi
+
+![The nushu-dark yazi flavor, running inside Neovim via yazi.nvim](./assets/nushu-yazi.png)
 
 Two matching [yazi](https://github.com/sxyazi/yazi) flavors ship in
 [`extras/yazi/`](./extras/yazi), for use standalone or through
