@@ -6,11 +6,11 @@ comfortable backgrounds. Dark and light variants included.
 
 **Dark**
 
-![Nushu Dark, highlighting a TypeScript React file](./assets/nushu-dark.png)
+![Nushu Dark: Lua, TypeScript React and TOML splits with an LSP hover float](./assets/nushu-dark.png)
 
 **Light**
 
-![Nushu Light, highlighting a TypeScript React file](./assets/nushu-light.png)
+![Nushu Light: Lua, TypeScript React and TOML splits with an LSP hover float](./assets/nushu-light.png)
 
 ## Requirements
 
