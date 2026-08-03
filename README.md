@@ -41,7 +41,7 @@ With [lazy.nvim](https://github.com/folke/lazy.nvim):
 " Follow 'background' (dark -> Nushu Dark, light -> Nushu Light)
 colorscheme nushu
 
-" Load a specific variant
+" Pin a variant, ignoring 'background'
 colorscheme nushu-dark
 colorscheme nushu-light
 ```
@@ -51,20 +51,25 @@ auto-dark-mode.nvim) re-applies the matching variant automatically.
 
 ### Pinning one variant
 
-`:colorscheme nushu-dark` selects a variant but does **not** survive a later
-`'background'` change: Neovim re-sources `g:colors_name` whenever `'background'`
-is set, which puts the theme back to following it. To pin a variant for good,
-map both backgrounds to it:
+A pinned variant holds regardless of `'background'`, so it survives anything
+that toggles it on a timer. Either entry point works:
 
-```lua
-require("nushu").setup({
-    background = { dark = "dark", light = "dark" },
-})
+```vim
+colorscheme nushu-dark
 ```
 
-`theme = "light"` also pins, but `theme = "dark"` does not — it matches the
-built-in default, which the resolver reads as "not explicitly set" and so falls
-through to the `'background'` mapping. Use the mapping above for dark.
+```lua
+require("nushu").setup({ theme = "dark" })
+```
+
+Going back to `:colorscheme nushu` clears the pin and resumes following
+`'background'`.
+
+`g:colors_name` reports the entry point in use — `nushu` when following
+`'background'`, or `nushu-dark`/`nushu-light` when pinned. That is what allows a
+pin to survive: Neovim re-sources `g:colors_name` on every `'background'` change,
+so the pinned variant has to name its own file. Anything of yours that keys off
+`g:colors_name` should match on the `nushu` prefix rather than compare exactly.
 
 ## Configuration
 

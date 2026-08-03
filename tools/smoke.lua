@@ -15,6 +15,7 @@ local failures = 0
 local function check(name, fn)
     -- Each check starts from stock config; setup() mutates module state.
     nushu.config = vim.deepcopy(nushu._DEFAULT_CONFIG)
+    nushu._THEME_SET_BY_USER = nil
     local ok, err = pcall(fn)
     if ok then
         io.write("  ok    " .. name .. "\n")
@@ -28,10 +29,13 @@ local function hl(name)
     return vim.api.nvim_get_hl(0, { name = name, link = false })
 end
 
+-- `g:colors_name` echoes the entry point that was used: plain "nushu" when
+-- following 'background', and the variant's own name when one is pinned, which
+-- is what lets Neovim re-source the right file.
 for _, cs in ipairs({ "nushu", "nushu-dark", "nushu-light" }) do
     check(":colorscheme " .. cs, function()
         vim.cmd.colorscheme(cs)
-        assert(vim.g.colors_name == "nushu", "colors_name is " .. tostring(vim.g.colors_name))
+        assert(vim.g.colors_name == cs, "colors_name is " .. tostring(vim.g.colors_name))
         assert(vim.g.nushu_variant, "nushu_variant unset")
         local n = hl("Normal")
         assert(n.fg and n.bg, "Normal has no fg/bg")
@@ -46,23 +50,56 @@ check("'background' switches the variant", function()
     assert(vim.g.nushu_variant == "dark", "expected dark, got " .. tostring(vim.g.nushu_variant))
 end)
 
--- Note: `:colorscheme nushu-dark` does NOT survive a 'background' change.
--- Neovim re-sources g:colors_name ("nushu") when 'background' is set, which
--- calls load() with no argument and drops the pin. The two checks below cover
--- the ways that do hold.
+-- Pinning is the regression-prone part: Neovim re-sources `g:colors_name` on
+-- every 'background' change, so each of these asserts the pin survives it.
+for _, variant in ipairs({ "dark", "light" }) do
+    check(":colorscheme nushu-" .. variant .. " survives a 'background' change", function()
+        vim.cmd.colorscheme("nushu-" .. variant)
+        assert(vim.g.colors_name == "nushu-" .. variant, "colors_name is " .. tostring(vim.g.colors_name))
+        vim.o.background = variant == "dark" and "light" or "dark"
+        assert(vim.g.nushu_variant == variant, "pin lost, got " .. tostring(vim.g.nushu_variant))
+        vim.o.background = "dark"
+        assert(vim.g.nushu_variant == variant, "pin lost on second toggle")
+    end)
+end
+
+check("plain :colorscheme nushu clears a previous pin", function()
+    vim.cmd.colorscheme("nushu-light")
+    vim.cmd.colorscheme("nushu")
+    assert(vim.g.colors_name == "nushu", "colors_name is " .. tostring(vim.g.colors_name))
+    vim.o.background = "light"
+    assert(vim.g.nushu_variant == "light", "should follow 'background', got " .. tostring(vim.g.nushu_variant))
+    vim.o.background = "dark"
+    assert(vim.g.nushu_variant == "dark", "should follow 'background', got " .. tostring(vim.g.nushu_variant))
+end)
+
+-- "dark" is the default value, so this only pins if setup() records that the
+-- key was passed rather than comparing it against the default.
+for _, variant in ipairs({ "dark", "light" }) do
+    check("setup{ theme = '" .. variant .. "' } pins the variant", function()
+        nushu.setup({ theme = variant })
+        vim.cmd.colorscheme("nushu")
+        vim.o.background = variant == "dark" and "light" or "dark"
+        assert(vim.g.nushu_variant == variant, "pin lost, got " .. tostring(vim.g.nushu_variant))
+        vim.o.background = "dark"
+    end)
+end
+
+check("lualine theme resolves under a pinned variant", function()
+    vim.cmd.colorscheme("nushu-light")
+    for _, mod in ipairs({ "lualine.themes.nushu-light", "lualine.themes.nushu" }) do
+        package.loaded[mod] = nil
+        local t = require(mod)
+        assert(t.normal and t.normal.a and t.normal.a.bg, mod .. " missing normal.a.bg")
+    end
+end)
+
 check("mapping both backgrounds to one variant pins it", function()
     nushu.setup({ background = { dark = "dark", light = "dark" } })
     vim.cmd.colorscheme("nushu")
     vim.o.background = "light"
     assert(vim.g.nushu_variant == "dark", "pin lost, got " .. tostring(vim.g.nushu_variant))
     vim.o.background = "dark"
-end)
-
-check("setup{ theme = 'light' } pins the variant", function()
-    nushu.setup({ theme = "light" })
-    vim.cmd.colorscheme("nushu")
-    vim.o.background = "dark"
-    assert(vim.g.nushu_variant == "light", "pin lost, got " .. tostring(vim.g.nushu_variant))
 end)
 
 check("setup() after :colorscheme re-applies", function()
