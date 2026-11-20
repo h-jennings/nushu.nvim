@@ -186,6 +186,36 @@ Note that yazi picks dark or light at launch from the *terminal's* reported
 appearance, not Neovim's `background`, so a variant switch lands on the next
 open rather than in a window already showing.
 
+## Hunk
+
+Two [Hunk](https://hunk.dev) themes, `nushu-dark` and `nushu-light`, ship as a
+Hunk extension in [`extras/hunk/nushu/`](./extras/hunk/nushu). Point Hunk at it
+and pick a variant:
+
+```toml
+# ~/.config/hunk/config.toml
+theme = "nushu-dark"
+
+[extensions]
+paths = ["~/.local/share/nvim/lazy/nushu.nvim/extras/hunk/nushu"]
+```
+
+Use `paths` rather than symlinking the folder into `~/.config/hunk/extensions/`:
+Hunk's folder scan skips symlinks.
+
+UI colors come straight from the palette: line and word diff backgrounds,
+signs, file status, and notes. Accents use the muted amber from the editor's
+git signs. Syntax colors use the same TextMate scope mapping as the yazi
+previews, layered over GitHub's default themes for any scope nushu doesn't
+name, so they match an open buffer in color but not token for token.
+
+Hunk only switches light/dark by itself for its own `terminal` and `auto`
+themes, so pass `--theme nushu-light` or `--theme nushu-dark` at launch if you
+want it to follow your system appearance.
+
+The extension is generated — run `nvim -l tools/gen-hunk-themes.lua` after
+changing the palette.
+
 ## Attribution
 
 - [wheredoesyourmindgo/nushu-vscode-theme](https://github.com/wheredoesyourmindgo/nushu-vscode-theme)

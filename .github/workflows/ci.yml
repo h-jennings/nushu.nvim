@@ -32,7 +32,7 @@ jobs:
       - run: nvim -l tools/smoke.lua
 
   flavors:
-    name: yazi flavors in sync
+    name: extras in sync
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,9 +43,10 @@ jobs:
       # extras/ is generated from the palette. Regenerating must be a no-op, or
       # the committed flavors have drifted from lua/nushu/themes.lua.
       - run: nvim -l tools/gen-yazi-flavors.lua
+      - run: nvim -l tools/gen-hunk-themes.lua
       - name: Check for drift
         run: |
           if ! git diff --exit-code -- extras/; then
-            echo "::error::extras/ is stale — run 'nvim -l tools/gen-yazi-flavors.lua' and commit"
+            echo "::error::extras/ is stale — run the tools/gen-*.lua generators and commit"
             exit 1
           fi
