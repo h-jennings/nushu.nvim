@@ -388,38 +388,13 @@ end
 -- : tmTheme for file previews {{{
 
 --- yazi previews through syntect, which wants TextMate scopes rather than
---- highlight groups. Scopes follow the mapping in lua/nushu/themes.lua.
+--- highlight groups. The scope rules are shared with the Hunk port.
 ---@param colors NushuColors
 ---@param variant "dark"|"light"
 local function tmtheme(colors, variant)
     local ui, syn = colors.theme.ui, colors.theme.syn
 
-    local rules = {
-        { "Comment", "comment", syn.comment },
-        { "String", "string, string.quoted, string.template", syn.string },
-        { "Regular expression", "string.regexp", syn.regex },
-        { "Escape sequence", "constant.character.escape", syn.special1 },
-        { "Number", "constant.numeric", syn.number },
-        { "Built-in constant", "constant.language, constant.character", syn.constant },
-        { "Other constant", "constant.other", syn.constant },
-        { "Variable", "variable, variable.other, meta.object.member", syn.variable },
-        { "Function parameter", "variable.parameter", syn.parameter },
-        { "Keyword", "keyword, keyword.control, storage, storage.type, storage.modifier", syn.keyword },
-        { "Operator", "keyword.operator", syn.operator },
-        { "Preprocessor / import", "meta.preprocessor, keyword.other.import, keyword.control.import", syn.preproc },
-        { "Function", "entity.name.function, support.function, meta.function-call", syn.fun },
-        { "Custom type", "entity.name.type, entity.name.class, entity.other.inherited-class", syn.type },
-        { "Default-library type", "support.type, support.class", syn.constant },
-        {
-            "Tag / component / JSON key",
-            "entity.name.tag, support.class.component, support.type.property-name",
-            syn.tag,
-        },
-        { "Punctuation", "punctuation, meta.brace", syn.punct },
-        { "Markdown heading", "markup.heading, entity.name.section", syn.heading },
-        { "Invalid", "invalid, invalid.illegal", syn.deprecated },
-        { "Deprecated", "invalid.deprecated", syn.deprecated },
-    }
+    local rules = dofile(repo .. "/tools/textmate-scopes.lua")(syn)
 
     local o = {}
     local function w(s)
